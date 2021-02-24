@@ -1,9 +1,17 @@
+/*
+  California University of Pennsylvania
+  CSC 400 Operating Systems
+  Spring 2021  
+  Kiana Savage, Jeremy Mwangelwa
+  sav1976@calu.edu mwa2711@calu.edu
+  
+*/
+
 #include <stdio.h>
 #include <stdlib.h>     // for exit()
 #include <time.h>
 #include <sys/times.h>  // for tms struct
 #include <sys/types.h>  // for time type, etc.
-#include <math.h>       // for sqrt()
 #include <unistd.h>     // for sysconf()
 
 //Calculate factorial recursively
