@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>     // for exit()
+#include <time.h>
 #include <sys/times.h>  // for tms struct
 #include <sys/types.h>  // for time type, etc.
 #include <math.h>       // for sqrt()
@@ -18,16 +19,16 @@ int main()
   //User input
   int N;
 
-  //Check for non number input
-
+		
+  
   //Prompt user for number, get number
   printf("Please enter a number: ");
-  scanf("%d", &N);
+  scanf("%d", &N);  
+  
+  //!!Needs to error-check for characters and negative numbers!!
 
   //Pass number to child
-  child1(N); 
-
-
+  child1(N);
 
 	return 0;
 }
@@ -49,6 +50,14 @@ double rfact(double number)
 //Calls factorial a lot
 void child1 (double num)
 {
+  //Store process times
+  struct tms mytimes; 
+
+  //time(&t1);
+
+  //CPU clock ticks
+  int clock_ticks;
+  clock_ticks = sysconf(_SC_CLK_TCK);  
 
   //Greeting with process id	
   printf("Hello, from Child1! My PID is: %d\n", getpid());
@@ -63,10 +72,15 @@ void child1 (double num)
     
   }
 
-  //Get current runtime in user mode
-  
+  // go get process times, with error-checking
+    if (times(&mytimes) == -1) {
+        perror("error calling times()");
+        exit(-1);
+    }
 
+  
   //Goodbye with time and process id	
-  printf("Goodbye, from Child1. That took <<RUNTIME>> seconds. My PID is: %d\n", getpid());
+  printf("Goodbye, from Child1.My PID is: %d\n", getpid());
+  printf("I used %.2f seconds of user time.\n", (float)mytimes.tms_utime / clock_ticks);
 
 }
